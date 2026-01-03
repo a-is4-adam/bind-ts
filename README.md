@@ -222,4 +222,4 @@ MIT
 
 ## Attribution
 
-Huge shoutout to the maintainers over at Tanstack(https://tanstack.com/), espically those working on @tanstack/store(https://tanstack.com/store/latest) and @tanstack/form(https://tanstack.com/form/latest). Using their codebases as the learning material for this project was invaluable. I've always been curious about how these libraries work under the hood and I'm grateful for the opportunity to learn from them.
+Huge shoutout to the maintainers over at [Tanstack](https://tanstack.com/), espically those working on [Tanstack Store](https://tanstack.com/store/latest) and [Tanstack Form](https://tanstack.com/form/latest). Using their codebases as the learning material for this project was invaluable. I've always been curious about how these libraries work under the hood and I'm grateful for the opportunity to learn from them.
