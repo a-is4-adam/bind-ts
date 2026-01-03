@@ -25,10 +25,9 @@ describe("createBindContexts type tests", () => {
 			// With explicit type parameter
 			const element = useElementContext<readonly ["tab1", "tab2"]>();
 
-			expectTypeOf(element.value).toEqualTypeOf<"tab1" | "tab2">();
-			expectTypeOf(element.isActive).toEqualTypeOf<boolean>();
+			expectTypeOf(element.state.value).toEqualTypeOf<"tab1" | "tab2">();
+			expectTypeOf(element.meta.isActive).toEqualTypeOf<boolean>();
 			expectTypeOf(element.handleChange).toEqualTypeOf<() => void>();
-			expectTypeOf(element.activeValue).toEqualTypeOf<"tab1" | "tab2">();
 
 			return null;
 		}
@@ -144,17 +143,17 @@ describe("createBindHook type tests", () => {
 
 			return (
 				<bind.Element value="tab1">
-					{(ctx) => {
+					{(bind) => {
 						// Should have element context properties
-						expectTypeOf(ctx.value).toEqualTypeOf<"tab1" | "tab2">();
-						expectTypeOf(ctx.isActive).toEqualTypeOf<boolean>();
-						expectTypeOf(ctx.handleChange).toEqualTypeOf<() => void>();
+						expectTypeOf(bind.state.value).toEqualTypeOf<"tab1" | "tab2">();
+						expectTypeOf(bind.meta.isActive).toEqualTypeOf<boolean>();
+						expectTypeOf(bind.handleChange).toEqualTypeOf<() => void>();
 
 						// Should have component group
-						expectTypeOf(ctx.Tab).toEqualTypeOf<typeof Tab>();
-						expectTypeOf(ctx.TabPanel).toEqualTypeOf<typeof TabPanel>();
+						expectTypeOf(bind.Tab).toEqualTypeOf<typeof Tab>();
+						expectTypeOf(bind.TabPanel).toEqualTypeOf<typeof TabPanel>();
 
-						return <ctx.Tab>Click me</ctx.Tab>;
+						return <bind.Tab>Click me</bind.Tab>;
 					}}
 				</bind.Element>
 			);
@@ -171,8 +170,8 @@ describe("createBindHook type tests", () => {
 		type Context = AppElementContext<TestValues, TestComponents>;
 
 		// Element context properties
-		expectTypeOf<Context["value"]>().toEqualTypeOf<"x" | "y">();
-		expectTypeOf<Context["isActive"]>().toEqualTypeOf<boolean>();
+		expectTypeOf<Context["state"]["value"]>().toEqualTypeOf<"x" | "y">();
+		expectTypeOf<Context["meta"]["isActive"]>().toEqualTypeOf<boolean>();
 		expectTypeOf<Context["handleChange"]>().toEqualTypeOf<() => void>();
 
 		// Component properties
@@ -247,23 +246,23 @@ describe("createBindHook type tests", () => {
 			return (
 				<>
 					<bindA.Element value="v1">
-						{(ctx) => {
+						{(bind) => {
 							// GroupA should have A and B
-							expectTypeOf(ctx.A).toEqualTypeOf<typeof A>();
-							expectTypeOf(ctx.B).toEqualTypeOf<typeof B>();
+							expectTypeOf(bind.A).toEqualTypeOf<typeof A>();
+							expectTypeOf(bind.B).toEqualTypeOf<typeof B>();
 							// @ts-expect-error - X is not in GroupA
-							ctx.X;
+							bind.X;
 							return null;
 						}}
 					</bindA.Element>
 
 					<bindX.Element value="v1">
-						{(ctx) => {
+						{(bind) => {
 							// GroupX should have X and Y
-							expectTypeOf(ctx.X).toEqualTypeOf<typeof X>();
-							expectTypeOf(ctx.Y).toEqualTypeOf<typeof Y>();
+							expectTypeOf(bind.X).toEqualTypeOf<typeof X>();
+							expectTypeOf(bind.Y).toEqualTypeOf<typeof Y>();
 							// @ts-expect-error - A is not in GroupX
-							ctx.A;
+							bind.A;
 							return null;
 						}}
 					</bindX.Element>

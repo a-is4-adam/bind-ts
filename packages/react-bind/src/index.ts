@@ -1,6 +1,12 @@
 export { useBind } from "./useBind";
 export type { ReactBindApi, ReactBindExtendedApi } from "./useBind";
-export type { ElementContext, ElementProps, SubscribeProps } from "./types";
+export type {
+	ElementContext,
+	ElementState,
+	ElementMeta,
+	ElementProps,
+	SubscribeProps,
+} from "./types";
 
 // Composition APIs
 export { createBindContexts, createBindHook } from "./createBindHook";

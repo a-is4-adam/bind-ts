@@ -2,17 +2,31 @@ import type { BindState } from "@bind/core";
 import type { ReactNode } from "react";
 
 /**
+ * State object for Element context
+ */
+export interface ElementState<TValues extends readonly string[]> {
+	/** The value this element represents */
+	value: TValues[number];
+}
+
+/**
+ * Meta information for Element context
+ */
+export interface ElementMeta {
+	/** Whether this value is currently active */
+	isActive: boolean;
+}
+
+/**
  * Context provided to Element render props
  */
 export interface ElementContext<TValues extends readonly string[]> {
-	/** The value this element represents */
-	value: TValues[number];
-	/** Whether this value is currently active */
-	isActive: boolean;
+	/** State object containing the element's value */
+	state: ElementState<TValues>;
+	/** Meta information about the element */
+	meta: ElementMeta;
 	/** Handler to set this value as active */
 	handleChange: () => void;
-	/** The currently active value */
-	activeValue: TValues[number];
 }
 
 /**

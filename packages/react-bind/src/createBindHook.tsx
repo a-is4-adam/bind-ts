@@ -142,7 +142,7 @@ export type AppBindExtendedApi<
  *
  * function TabPanel({ children }: { children: React.ReactNode }) {
  *   const element = useElementContext();
- *   if (!element.isActive) return null;
+ *   if (!element.meta.isActive) return null;
  *   return <div>{children}</div>;
  * }
  *
@@ -164,10 +164,10 @@ export type AppBindExtendedApi<
  *   return (
  *     <div>
  *       <tabs.Element value="tab1">
- *         {(bindApi) => <ctx.Tab>Tab 1</ctx.Tab>}
+ *         {(bind) => <bind.Tab>Tab 1</bind.Tab>}
  *       </tabs.Element>
  *       <tabs.Element value="tab1">
- *         {(bindApi) => <ctx.TabPanel>Panel 1</ctx.TabPanel>}
+ *         {(bind) => <bind.TabPanel>Panel 1</bind.TabPanel>}
  *       </tabs.Element>
  *     </div>
  *   );
@@ -205,16 +205,16 @@ export function createBindHook<const TComponentGroups extends ComponentGroups>({
 			return function Element(props: AppElementProps<TValues, TComponentGroups[TGroupKey]>) {
 				return (
 					<bindApi.Element value={props.value}>
-						{(elementCtx) => {
+						{(bind) => {
 							// Merge element context with component group
 							const appElementContext = {
-								...elementCtx,
+								...bind,
 								...componentGroup,
 							} as AppElementContext<TValues, TComponentGroups[TGroupKey]>;
 
 							return (
 								<elementContext.Provider
-									value={elementCtx as ElementContext<readonly string[]>}
+									value={bind as ElementContext<readonly string[]>}
 								>
 									{props.children(appElementContext)}
 								</elementContext.Provider>

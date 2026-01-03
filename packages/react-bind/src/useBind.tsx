@@ -64,13 +64,16 @@ function LocalElement<TValues extends readonly string[]>({
 	value: TValues[number];
 	children: (context: ElementContext<TValues>) => ReactNode;
 }): ReturnType<FunctionComponent> {
-	const state = useStore(bindApi.store, (s: BindState<TValues>) => s);
+	const storeState = useStore(bindApi.store, (s: BindState<TValues>) => s);
 
 	const context: ElementContext<TValues> = {
-		value: value,
-		isActive: state.value === value,
+		state: {
+			value: value,
+		},
+		meta: {
+			isActive: storeState.value === value,
+		},
 		handleChange: () => bindApi.setValue(value),
-		activeValue: state.value,
 	};
 
 	return <>{children(context)}</>;
@@ -92,10 +95,10 @@ function LocalElement<TValues extends readonly string[]>({
  * return (
  *   <div>
  *     <tabs.Element value="tab1">
- *       {(bindApi) => <button onClick={bindApi.handleChange}>Tab 1</button>}
+ *       {(bind) => <button onClick={bind.handleChange}>Tab 1</button>}
  *     </tabs.Element>
  *     <tabs.Element value="tab1">
- *       {(bindApi) => ctx.isActive && <div>Panel 1</div>}
+ *       {(bind) => bind.meta.isActive && <div>Panel 1</div>}
  *     </tabs.Element>
  *   </div>
  * );

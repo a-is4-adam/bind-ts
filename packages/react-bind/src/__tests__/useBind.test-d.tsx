@@ -68,10 +68,9 @@ describe("useBind type tests", () => {
 
 		type Context = ElementContext<TestValues>;
 
-		expectTypeOf<Context["value"]>().toEqualTypeOf<"first" | "second">();
-		expectTypeOf<Context["isActive"]>().toEqualTypeOf<boolean>();
+		expectTypeOf<Context["state"]["value"]>().toEqualTypeOf<"first" | "second">();
+		expectTypeOf<Context["meta"]["isActive"]>().toEqualTypeOf<boolean>();
 		expectTypeOf<Context["handleChange"]>().toEqualTypeOf<() => void>();
-		expectTypeOf<Context["activeValue"]>().toEqualTypeOf<"first" | "second">();
 	});
 
 	it("should type ElementProps correctly", () => {
@@ -114,8 +113,8 @@ describe("useBind type tests", () => {
 			return (
 				<>
 					<bind.Element value="panel1">
-						{(ctx) => {
-							expectTypeOf(ctx.value).toEqualTypeOf<"panel1" | "panel2">();
+						{(bindCtx) => {
+							expectTypeOf(bindCtx.state.value).toEqualTypeOf<"panel1" | "panel2">();
 							return null;
 						}}
 					</bind.Element>

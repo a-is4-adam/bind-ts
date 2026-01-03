@@ -36,11 +36,12 @@ describe("useBind", () => {
 
 			return (
 				<bind.Element value="tab1">
-					{(ctx) => (
+					{(bind) => (
 						<div>
-							<span data-testid="element-value">{ctx.value}</span>
-							<span data-testid="element-isActive">{ctx.isActive.toString()}</span>
-							<span data-testid="element-activeValue">{ctx.activeValue}</span>
+							<span data-testid="element-value">{bind.state.value}</span>
+							<span data-testid="element-isActive">
+								{bind.meta.isActive.toString()}
+							</span>
 						</div>
 					)}
 				</bind.Element>
@@ -50,7 +51,6 @@ describe("useBind", () => {
 		render(<TestComponent />);
 		expect(screen.getByTestId("element-value").textContent).toBe("tab1");
 		expect(screen.getByTestId("element-isActive").textContent).toBe("true");
-		expect(screen.getByTestId("element-activeValue").textContent).toBe("tab1");
 	});
 
 	it("should update state when handleChange is called from Element", () => {
@@ -63,8 +63,8 @@ describe("useBind", () => {
 			return (
 				<div>
 					<bind.Element value="tab2">
-						{(ctx) => (
-							<button data-testid="update-trigger" onClick={ctx.handleChange}>
+						{(bind) => (
+							<button data-testid="update-trigger" onClick={bind.handleChange}>
 								Switch to Tab 2
 							</button>
 						)}
@@ -83,7 +83,7 @@ describe("useBind", () => {
 		expect(screen.getByTestId("update-active").textContent).toBe("tab2");
 	});
 
-	it("should conditionally render based on isActive", () => {
+	it("should conditionally render based on meta.isActive", () => {
 		function TestComponent() {
 			const bind = useBind({
 				defaultValue: "tab1",
@@ -93,18 +93,22 @@ describe("useBind", () => {
 			return (
 				<div>
 					<bind.Element value="tab1">
-						{(ctx) =>
-							ctx.isActive && <div data-testid="cond-panel1">Panel 1 Content</div>
+						{(bind) =>
+							bind.meta.isActive && (
+								<div data-testid="cond-panel1">Panel 1 Content</div>
+							)
 						}
 					</bind.Element>
 					<bind.Element value="tab2">
-						{(ctx) =>
-							ctx.isActive && <div data-testid="cond-panel2">Panel 2 Content</div>
+						{(bind) =>
+							bind.meta.isActive && (
+								<div data-testid="cond-panel2">Panel 2 Content</div>
+							)
 						}
 					</bind.Element>
 					<bind.Element value="tab2">
-						{(ctx) => (
-							<button data-testid="cond-switch" onClick={ctx.handleChange}>
+						{(bind) => (
+							<button data-testid="cond-switch" onClick={bind.handleChange}>
 								Switch
 							</button>
 						)}
@@ -266,12 +270,16 @@ describe("useBind", () => {
 					{/* Two elements for tab1 */}
 					<bind.Element value="tab1">
 						{(bindApi) => (
-							<span data-testid="multi-element1">{bindApi.isActive.toString()}</span>
+							<span data-testid="multi-element1">
+								{bindApi.meta.isActive.toString()}
+							</span>
 						)}
 					</bind.Element>
 					<bind.Element value="tab1">
 						{(bindApi) => (
-							<span data-testid="multi-element2">{bindApi.isActive.toString()}</span>
+							<span data-testid="multi-element2">
+								{bindApi.meta.isActive.toString()}
+							</span>
 						)}
 					</bind.Element>
 
@@ -365,7 +373,7 @@ describe("createBindHook", () => {
 		function Tab({ children }: { children: React.ReactNode }) {
 			const element = useElementContext();
 			return (
-				<button data-testid={`tab-${element.value}`} onClick={element.handleChange}>
+				<button data-testid={`tab-${element.state.value}`} onClick={element.handleChange}>
 					{children}
 				</button>
 			);
@@ -373,8 +381,8 @@ describe("createBindHook", () => {
 
 		function TabPanel({ children }: { children: React.ReactNode }) {
 			const element = useElementContext();
-			if (!element.isActive) return null;
-			return <div data-testid={`panel-${element.value}`}>{children}</div>;
+			if (!element.meta.isActive) return null;
+			return <div data-testid={`panel-${element.state.value}`}>{children}</div>;
 		}
 
 		const { useAppBind } = createBindHook({
@@ -393,13 +401,13 @@ describe("createBindHook", () => {
 
 			return (
 				<div>
-					<bind.Element value="tab1">{(ctx) => <ctx.Tab>Tab 1</ctx.Tab>}</bind.Element>
-					<bind.Element value="tab2">{(ctx) => <ctx.Tab>Tab 2</ctx.Tab>}</bind.Element>
+					<bind.Element value="tab1">{(bind) => <bind.Tab>Tab 1</bind.Tab>}</bind.Element>
+					<bind.Element value="tab2">{(bind) => <bind.Tab>Tab 2</bind.Tab>}</bind.Element>
 					<bind.Element value="tab1">
-						{(ctx) => <ctx.TabPanel>Panel 1 Content</ctx.TabPanel>}
+						{(bind) => <bind.TabPanel>Panel 1 Content</bind.TabPanel>}
 					</bind.Element>
 					<bind.Element value="tab2">
-						{(ctx) => <ctx.TabPanel>Panel 2 Content</ctx.TabPanel>}
+						{(bind) => <bind.TabPanel>Panel 2 Content</bind.TabPanel>}
 					</bind.Element>
 				</div>
 			);
@@ -430,9 +438,8 @@ describe("createBindHook", () => {
 			const element = useElementContext();
 			return (
 				<div>
-					<span data-testid="element-value">{element.value}</span>
-					<span data-testid="element-isActive">{element.isActive.toString()}</span>
-					<span data-testid="element-activeValue">{element.activeValue}</span>
+					<span data-testid="element-value">{element.state.value}</span>
+					<span data-testid="element-isActive">{element.meta.isActive.toString()}</span>
 				</div>
 			);
 		}
@@ -460,7 +467,6 @@ describe("createBindHook", () => {
 
 		expect(screen.getByTestId("element-value").textContent).toBe("first");
 		expect(screen.getByTestId("element-isActive").textContent).toBe("true");
-		expect(screen.getByTestId("element-activeValue").textContent).toBe("first");
 	});
 
 	it("should throw error when useElementContext is used outside Element", () => {
@@ -481,8 +487,8 @@ describe("createBindHook", () => {
 
 		function WizardStep({ children }: { children: React.ReactNode }) {
 			const element = useElementContext();
-			if (!element.isActive) return null;
-			return <div data-testid={`wizard-step-${element.value}`}>{children}</div>;
+			if (!element.meta.isActive) return null;
+			return <div data-testid={`wizard-step-${element.state.value}`}>{children}</div>;
 		}
 
 		function WizardNext() {
@@ -512,12 +518,12 @@ describe("createBindHook", () => {
 			return (
 				<div>
 					<bind.Element value="step1">
-						{(ctx) => <ctx.WizardStep>Step 1</ctx.WizardStep>}
+						{(bind) => <bind.WizardStep>Step 1</bind.WizardStep>}
 					</bind.Element>
 					<bind.Element value="step2">
-						{(ctx) => <ctx.WizardStep>Step 2</ctx.WizardStep>}
+						{(bind) => <bind.WizardStep>Step 2</bind.WizardStep>}
 					</bind.Element>
-					<bind.Element value="step2">{(ctx) => <ctx.WizardNext />}</bind.Element>
+					<bind.Element value="step2">{(bind) => <bind.WizardNext />}</bind.Element>
 				</div>
 			);
 		}

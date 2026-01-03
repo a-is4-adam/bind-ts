@@ -27,7 +27,7 @@ function Tab({ children }: { children: React.ReactNode }) {
 function TabPanel({ children }: { children: React.ReactNode }) {
 	const element = useElementContext();
 
-	if (element.activeValue !== element.value) {
+	if (!element.meta.isActive) {
 		return null;
 	}
 
