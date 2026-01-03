@@ -118,4 +118,24 @@ describe("CompoundApi", () => {
     expect(listener).toHaveBeenCalled();
     expect(compound.state.activeVariant).toBe("tab1");
   });
+
+  it("should reset to a new default when provided", () => {
+    const compound = new CompoundApi({
+      defaultVariant: "tab1",
+      variants: ["tab1", "tab2", "tab3"] as const,
+    });
+
+    compound.setVariant("tab2");
+    expect(compound.state.activeVariant).toBe("tab2");
+
+    // Reset with new default
+    compound.reset("tab3");
+    expect(compound.state.activeVariant).toBe("tab3");
+    expect(compound.options.defaultVariant).toBe("tab3");
+
+    // Subsequent reset should use new default
+    compound.setVariant("tab1");
+    compound.reset();
+    expect(compound.state.activeVariant).toBe("tab3");
+  });
 });

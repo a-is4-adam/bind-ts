@@ -71,9 +71,16 @@ export class CompoundApi<TVariants extends readonly string[]> {
 
   /**
    * Resets the active variant to the default variant.
-   * Useful for "restart wizard" use cases.
+   * Optionally accepts a new default variant to set before resetting.
+   * Useful for "restart wizard" or "reset to new state" use cases.
    */
-  reset = (): void => {
+  reset = (newDefault?: TVariants[number]): void => {
+    if (newDefault !== undefined) {
+      this.options = {
+        ...this.options,
+        defaultVariant: newDefault,
+      };
+    }
     this.store.setState((prev) => ({
       ...prev,
       activeVariant: this.options.defaultVariant,
