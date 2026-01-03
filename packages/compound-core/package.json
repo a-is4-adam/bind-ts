@@ -1,5 +1,5 @@
 {
-  "name": "@compound/core",
+  "name": "@compound/core-compound",
   "version": "0.0.1",
   "description": "Type-safe, framework-agnostic compound component state management",
   "author": "",

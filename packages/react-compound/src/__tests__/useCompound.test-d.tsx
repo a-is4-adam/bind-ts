@@ -5,7 +5,7 @@ import type {
   ReactCompoundApi,
 } from "../useCompound";
 import type { SlotRenderContext, SlotProps, SubscribeProps } from "../types";
-import type { CompoundState } from "@compound/core";
+import type { CompoundState } from "@compound/core-compound";
 
 describe("useCompound type tests", () => {
   it("should return ReactCompoundExtendedApi with correct variant types", () => {

@@ -14,4 +14,4 @@ export type {
 } from "./createCompoundHook";
 
 // Re-export core types for convenience
-export type { CompoundOptions, CompoundState } from "@compound/core";
+export type { CompoundOptions, CompoundState } from "@compound/core-compound";

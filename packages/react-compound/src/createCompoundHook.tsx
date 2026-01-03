@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { useCompound } from "./useCompound";
-import type { CompoundOptions, CompoundState } from "@compound/core";
+import type { CompoundOptions, CompoundState } from "@compound/core-compound";
 import type {
   ComponentType,
   Context,

@@ -16,14 +16,14 @@ export default defineConfig({
       external: [
         "react",
         "react-dom",
-        "@compound/core",
+        "@compound/core-compound",
         "@tanstack/react-store",
       ],
       output: {
         globals: {
           react: "React",
           "react-dom": "ReactDOM",
-          "@compound/core": "CompoundCore",
+          "@compound/core-compound": "CompoundCoreCompound",
           "@tanstack/react-store": "TanstackReactStore",
         },
       },

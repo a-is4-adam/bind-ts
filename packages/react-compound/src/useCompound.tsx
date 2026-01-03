@@ -4,7 +4,7 @@ import {
   CompoundApi,
   type CompoundOptions,
   type CompoundState,
-} from "@compound/core";
+} from "@compound/core-compound";
 import { useStore } from "@tanstack/react-store";
 import { useMemo, useState } from "react";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";

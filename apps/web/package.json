@@ -1,5 +1,5 @@
 {
-  "name": "web",
+  "name": "@compound/web",
   "version": "0.1.0",
   "type": "module",
   "private": true,
@@ -11,15 +11,15 @@
     "check-types": "next typegen && tsc --noEmit"
   },
   "dependencies": {
-    "@repo/ui": "*",
-    "@compound/core": "*",
+    "@compound/ui": "*",
+    "@compound/react-compound": "*",
     "next": "16.1.0",
     "react": "^19.2.0",
     "react-dom": "^19.2.0"
   },
   "devDependencies": {
-    "@repo/eslint-config": "*",
-    "@repo/typescript-config": "*",
+    "@compound/eslint-config": "*",
+    "@compound/typescript-config": "*",
     "@types/node": "^22.15.3",
     "@types/react": "19.2.2",
     "@types/react-dom": "19.2.2",

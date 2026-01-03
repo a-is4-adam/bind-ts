@@ -1,4 +1,4 @@
-import type { CompoundState } from "@compound/core";
+import type { CompoundState } from "@compound/core-compound";
 import type { ReactNode } from "react";
 
 /**

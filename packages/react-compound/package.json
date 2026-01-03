@@ -1,5 +1,5 @@
 {
-  "name": "@compound/react",
+  "name": "@compound/react-compound",
   "version": "0.0.1",
   "description": "React bindings for @compound/core - type-safe compound component state management",
   "author": "",
@@ -33,7 +33,7 @@
     "check-types": "tsc --noEmit"
   },
   "dependencies": {
-    "@compound/core": "workspace:*",
+    "@compound/core-compound": "workspace:*",
     "@tanstack/react-store": "^0.7.0"
   },
   "peerDependencies": {
