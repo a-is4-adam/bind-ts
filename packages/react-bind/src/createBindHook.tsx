@@ -52,15 +52,15 @@ export function createBindContexts() {
 	}
 
 	function useBindContext<TValues extends readonly string[] = readonly string[]>() {
-		const bind = useContext(bindContext);
+		const bindApi = useContext(bindContext);
 
-		if (!bind) {
+		if (!bindApi) {
 			throw new Error(
 				"`useBindContext` must be used within an `AppBind` component created by `createBindHook`",
 			);
 		}
 
-		return bind as unknown as ReactBindExtendedApi<TValues>;
+		return bindApi as unknown as ReactBindExtendedApi<TValues>;
 	}
 
 	return {
@@ -164,10 +164,10 @@ export type AppBindExtendedApi<
  *   return (
  *     <div>
  *       <tabs.Element value="tab1">
- *         {(bind) => <bind.Tab>Tab 1</bind.Tab>}
+ *         {(bindApi) => <bindApi.Tab>Tab 1</bindApi.Tab>}
  *       </tabs.Element>
  *       <tabs.Element value="tab1">
- *         {(bind) => <bind.TabPanel>Panel 1</bind.TabPanel>}
+ *         {(bindApi) => <bindApi.TabPanel>Panel 1</bindApi.TabPanel>}
  *       </tabs.Element>
  *     </div>
  *   );
@@ -205,16 +205,16 @@ export function createBindHook<const TComponentGroups extends ComponentGroups>({
 			return function Element(props: AppElementProps<TValues, TComponentGroups[TGroupKey]>) {
 				return (
 					<bindApi.Element value={props.value}>
-						{(bind) => {
+						{(bindApi) => {
 							// Merge element context with component group
 							const appElementContext = {
-								...bind,
+								...bindApi,
 								...componentGroup,
 							} as AppElementContext<TValues, TComponentGroups[TGroupKey]>;
 
 							return (
 								<elementContext.Provider
-									value={bind as ElementContext<readonly string[]>}
+									value={bindApi as ElementContext<readonly string[]>}
 								>
 									{props.children(appElementContext)}
 								</elementContext.Provider>

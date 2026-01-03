@@ -95,10 +95,10 @@ function LocalElement<TValues extends readonly string[]>({
  * return (
  *   <div>
  *     <tabs.Element value="tab1">
- *       {(bind) => <button onClick={bind.handleChange}>Tab 1</button>}
+ *       {(bindApi) => <button onClick={bind.handleChange}>Tab 1</button>}
  *     </tabs.Element>
  *     <tabs.Element value="tab1">
- *       {(bind) => bind.meta.isActive && <div>Panel 1</div>}
+ *       {(bindApi) => bind.meta.isActive && <div>Panel 1</div>}
  *     </tabs.Element>
  *   </div>
  * );

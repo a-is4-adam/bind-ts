@@ -36,11 +36,11 @@ describe("useBind", () => {
 
 			return (
 				<bind.Element value="tab1">
-					{(bind) => (
+					{(bindApi) => (
 						<div>
-							<span data-testid="element-value">{bind.state.value}</span>
+							<span data-testid="element-value">{bindApi.state.value}</span>
 							<span data-testid="element-isActive">
-								{bind.meta.isActive.toString()}
+								{bindApi.meta.isActive.toString()}
 							</span>
 						</div>
 					)}
@@ -63,8 +63,8 @@ describe("useBind", () => {
 			return (
 				<div>
 					<bind.Element value="tab2">
-						{(bind) => (
-							<button data-testid="update-trigger" onClick={bind.handleChange}>
+						{(bindApi) => (
+							<button data-testid="update-trigger" onClick={bindApi.handleChange}>
 								Switch to Tab 2
 							</button>
 						)}
@@ -93,22 +93,22 @@ describe("useBind", () => {
 			return (
 				<div>
 					<bind.Element value="tab1">
-						{(bind) =>
-							bind.meta.isActive && (
+						{(bindApi) =>
+							bindApi.meta.isActive && (
 								<div data-testid="cond-panel1">Panel 1 Content</div>
 							)
 						}
 					</bind.Element>
 					<bind.Element value="tab2">
-						{(bind) =>
-							bind.meta.isActive && (
+						{(bindApi) =>
+							bindApi.meta.isActive && (
 								<div data-testid="cond-panel2">Panel 2 Content</div>
 							)
 						}
 					</bind.Element>
 					<bind.Element value="tab2">
-						{(bind) => (
-							<button data-testid="cond-switch" onClick={bind.handleChange}>
+						{(bindApi) => (
+							<button data-testid="cond-switch" onClick={bindApi.handleChange}>
 								Switch
 							</button>
 						)}
@@ -401,13 +401,17 @@ describe("createBindHook", () => {
 
 			return (
 				<div>
-					<bind.Element value="tab1">{(bind) => <bind.Tab>Tab 1</bind.Tab>}</bind.Element>
-					<bind.Element value="tab2">{(bind) => <bind.Tab>Tab 2</bind.Tab>}</bind.Element>
 					<bind.Element value="tab1">
-						{(bind) => <bind.TabPanel>Panel 1 Content</bind.TabPanel>}
+						{(bindApi) => <bindApi.Tab>Tab 1</bindApi.Tab>}
 					</bind.Element>
 					<bind.Element value="tab2">
-						{(bind) => <bind.TabPanel>Panel 2 Content</bind.TabPanel>}
+						{(bindApi) => <bindApi.Tab>Tab 2</bindApi.Tab>}
+					</bind.Element>
+					<bind.Element value="tab1">
+						{(bindApi) => <bindApi.TabPanel>Panel 1 Content</bindApi.TabPanel>}
+					</bind.Element>
+					<bind.Element value="tab2">
+						{(bindApi) => <bindApi.TabPanel>Panel 2 Content</bindApi.TabPanel>}
 					</bind.Element>
 				</div>
 			);
@@ -518,12 +522,12 @@ describe("createBindHook", () => {
 			return (
 				<div>
 					<bind.Element value="step1">
-						{(bind) => <bind.WizardStep>Step 1</bind.WizardStep>}
+						{(bindApi) => <bindApi.WizardStep>Step 1</bindApi.WizardStep>}
 					</bind.Element>
 					<bind.Element value="step2">
-						{(bind) => <bind.WizardStep>Step 2</bind.WizardStep>}
+						{(bindApi) => <bindApi.WizardStep>Step 2</bindApi.WizardStep>}
 					</bind.Element>
-					<bind.Element value="step2">{(bind) => <bind.WizardNext />}</bind.Element>
+					<bind.Element value="step2">{(bindApi) => <bindApi.WizardNext />}</bind.Element>
 				</div>
 			);
 		}

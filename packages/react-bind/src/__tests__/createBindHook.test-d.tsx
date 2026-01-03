@@ -143,17 +143,17 @@ describe("createBindHook type tests", () => {
 
 			return (
 				<bind.Element value="tab1">
-					{(bind) => {
+					{(bindApi) => {
 						// Should have element context properties
-						expectTypeOf(bind.state.value).toEqualTypeOf<"tab1" | "tab2">();
-						expectTypeOf(bind.meta.isActive).toEqualTypeOf<boolean>();
-						expectTypeOf(bind.handleChange).toEqualTypeOf<() => void>();
+						expectTypeOf(bindApi.state.value).toEqualTypeOf<"tab1" | "tab2">();
+						expectTypeOf(bindApi.meta.isActive).toEqualTypeOf<boolean>();
+						expectTypeOf(bindApi.handleChange).toEqualTypeOf<() => void>();
 
 						// Should have component group
-						expectTypeOf(bind.Tab).toEqualTypeOf<typeof Tab>();
-						expectTypeOf(bind.TabPanel).toEqualTypeOf<typeof TabPanel>();
+						expectTypeOf(bindApi.Tab).toEqualTypeOf<typeof Tab>();
+						expectTypeOf(bindApi.TabPanel).toEqualTypeOf<typeof TabPanel>();
 
-						return <bind.Tab>Click me</bind.Tab>;
+						return <bindApi.Tab>Click me</bindApi.Tab>;
 					}}
 				</bind.Element>
 			);
@@ -246,23 +246,23 @@ describe("createBindHook type tests", () => {
 			return (
 				<>
 					<bindA.Element value="v1">
-						{(bind) => {
+						{(bindApi) => {
 							// GroupA should have A and B
-							expectTypeOf(bind.A).toEqualTypeOf<typeof A>();
-							expectTypeOf(bind.B).toEqualTypeOf<typeof B>();
+							expectTypeOf(bindApi.A).toEqualTypeOf<typeof A>();
+							expectTypeOf(bindApi.B).toEqualTypeOf<typeof B>();
 							// @ts-expect-error - X is not in GroupA
-							bind.X;
+							bindApi.X;
 							return null;
 						}}
 					</bindA.Element>
 
 					<bindX.Element value="v1">
-						{(bind) => {
+						{(bindApi) => {
 							// GroupX should have X and Y
-							expectTypeOf(bind.X).toEqualTypeOf<typeof X>();
-							expectTypeOf(bind.Y).toEqualTypeOf<typeof Y>();
+							expectTypeOf(bindApi.X).toEqualTypeOf<typeof X>();
+							expectTypeOf(bindApi.Y).toEqualTypeOf<typeof Y>();
 							// @ts-expect-error - A is not in GroupX
-							bind.A;
+							bindApi.A;
 							return null;
 						}}
 					</bindX.Element>
