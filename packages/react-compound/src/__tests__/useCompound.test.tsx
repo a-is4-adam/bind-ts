@@ -7,6 +7,10 @@ import {
   act,
 } from "@testing-library/react";
 import { useCompound } from "../useCompound";
+import {
+  createCompoundHookContexts,
+  createCompoundHook,
+} from "../createCompoundHook";
 
 describe("useCompound", () => {
   // Ensure each test starts with a clean DOM
@@ -316,5 +320,211 @@ describe("useCompound", () => {
     // Both slots should update to false simultaneously
     expect(screen.getByTestId("multi-slot1").textContent).toBe("false");
     expect(screen.getByTestId("multi-slot2").textContent).toBe("false");
+  });
+});
+
+// Composition API Tests
+describe("createCompoundHook", () => {
+  beforeEach(() => {
+    cleanup();
+  });
+
+  it("should create contexts and hooks", () => {
+    const { slotContext, compoundContext, useSlotContext, useCompoundContext } =
+      createCompoundHookContexts();
+
+    expect(slotContext).toBeDefined();
+    expect(compoundContext).toBeDefined();
+    expect(typeof useSlotContext).toBe("function");
+    expect(typeof useCompoundContext).toBe("function");
+  });
+
+  it("should create useAppCompound hook with component groups", () => {
+    const { slotContext, compoundContext, useSlotContext } =
+      createCompoundHookContexts();
+
+    // Define custom components that use the slot context
+    function Tab({ children }: { children: React.ReactNode }) {
+      const slot = useSlotContext();
+      return (
+        <button data-testid={`tab-${slot.variant}`} onClick={slot.setVariant}>
+          {children}
+        </button>
+      );
+    }
+
+    function TabPanel({ children }: { children: React.ReactNode }) {
+      const slot = useSlotContext();
+      if (!slot.isActive) return null;
+      return <div data-testid={`panel-${slot.variant}`}>{children}</div>;
+    }
+
+    const { useAppCompound } = createCompoundHook({
+      slotContext,
+      compoundContext,
+      components: {
+        Tab: { Tab, TabPanel },
+      },
+    });
+
+    function TestComponent() {
+      const compound = useAppCompound("Tab", {
+        defaultVariant: "tab1",
+        variants: ["tab1", "tab2"] as const,
+      });
+
+      return (
+        <div>
+          <compound.AppSlot id="tab1">
+            {(ctx) => <ctx.Tab>Tab 1</ctx.Tab>}
+          </compound.AppSlot>
+          <compound.AppSlot id="tab2">
+            {(ctx) => <ctx.Tab>Tab 2</ctx.Tab>}
+          </compound.AppSlot>
+          <compound.AppSlot id="tab1">
+            {(ctx) => <ctx.TabPanel>Panel 1 Content</ctx.TabPanel>}
+          </compound.AppSlot>
+          <compound.AppSlot id="tab2">
+            {(ctx) => <ctx.TabPanel>Panel 2 Content</ctx.TabPanel>}
+          </compound.AppSlot>
+        </div>
+      );
+    }
+
+    render(<TestComponent />);
+
+    // Tab buttons should render
+    expect(screen.getByTestId("tab-tab1")).toBeInTheDocument();
+    expect(screen.getByTestId("tab-tab2")).toBeInTheDocument();
+
+    // Only tab1 panel should be visible initially
+    expect(screen.getByTestId("panel-tab1")).toBeInTheDocument();
+    expect(screen.queryByTestId("panel-tab2")).not.toBeInTheDocument();
+
+    // Click tab2 to switch
+    fireEvent.click(screen.getByTestId("tab-tab2"));
+
+    // Now tab2 panel should be visible and tab1 hidden
+    expect(screen.queryByTestId("panel-tab1")).not.toBeInTheDocument();
+    expect(screen.getByTestId("panel-tab2")).toBeInTheDocument();
+  });
+
+  it("should provide slot context via useSlotContext", () => {
+    const { slotContext, compoundContext, useSlotContext } =
+      createCompoundHookContexts();
+
+    function SlotInfo() {
+      const slot = useSlotContext();
+      return (
+        <div>
+          <span data-testid="slot-variant">{slot.variant}</span>
+          <span data-testid="slot-isActive">{slot.isActive.toString()}</span>
+          <span data-testid="slot-activeVariant">{slot.activeVariant}</span>
+        </div>
+      );
+    }
+
+    const { useAppCompound } = createCompoundHook({
+      slotContext,
+      compoundContext,
+      components: {
+        Info: { SlotInfo },
+      },
+    });
+
+    function TestComponent() {
+      const compound = useAppCompound("Info", {
+        defaultVariant: "first",
+        variants: ["first", "second"] as const,
+      });
+
+      return (
+        <compound.AppSlot id="first">
+          {(ctx) => <ctx.SlotInfo />}
+        </compound.AppSlot>
+      );
+    }
+
+    render(<TestComponent />);
+
+    expect(screen.getByTestId("slot-variant").textContent).toBe("first");
+    expect(screen.getByTestId("slot-isActive").textContent).toBe("true");
+    expect(screen.getByTestId("slot-activeVariant").textContent).toBe("first");
+  });
+
+  it("should throw error when useSlotContext is used outside AppSlot", () => {
+    const { useSlotContext } = createCompoundHookContexts();
+
+    function BadComponent() {
+      useSlotContext(); // This should throw
+      return <div>Bad</div>;
+    }
+
+    expect(() => render(<BadComponent />)).toThrow(
+      "`useSlotContext` must be used within an `AppSlot` component"
+    );
+  });
+
+  it("should support multiple component groups", () => {
+    const { slotContext, compoundContext, useSlotContext } =
+      createCompoundHookContexts();
+
+    function WizardStep({ children }: { children: React.ReactNode }) {
+      const slot = useSlotContext();
+      if (!slot.isActive) return null;
+      return <div data-testid={`wizard-step-${slot.variant}`}>{children}</div>;
+    }
+
+    function WizardNext() {
+      const slot = useSlotContext();
+      return (
+        <button data-testid="wizard-next" onClick={slot.setVariant}>
+          Next
+        </button>
+      );
+    }
+
+    const { useAppCompound } = createCompoundHook({
+      slotContext,
+      compoundContext,
+      components: {
+        Tab: { Tab: () => null, TabPanel: () => null },
+        Wizard: { WizardStep, WizardNext },
+      },
+    });
+
+    function TestComponent() {
+      const compound = useAppCompound("Wizard", {
+        defaultVariant: "step1",
+        variants: ["step1", "step2"] as const,
+      });
+
+      return (
+        <div>
+          <compound.AppSlot id="step1">
+            {(ctx) => <ctx.WizardStep>Step 1</ctx.WizardStep>}
+          </compound.AppSlot>
+          <compound.AppSlot id="step2">
+            {(ctx) => <ctx.WizardStep>Step 2</ctx.WizardStep>}
+          </compound.AppSlot>
+          <compound.AppSlot id="step2">
+            {(ctx) => <ctx.WizardNext />}
+          </compound.AppSlot>
+        </div>
+      );
+    }
+
+    render(<TestComponent />);
+
+    // Step 1 should be visible
+    expect(screen.getByTestId("wizard-step-step1")).toBeInTheDocument();
+    expect(screen.queryByTestId("wizard-step-step2")).not.toBeInTheDocument();
+
+    // Click next to go to step 2
+    fireEvent.click(screen.getByTestId("wizard-next"));
+
+    // Step 2 should be visible
+    expect(screen.queryByTestId("wizard-step-step1")).not.toBeInTheDocument();
+    expect(screen.getByTestId("wizard-step-step2")).toBeInTheDocument();
   });
 });

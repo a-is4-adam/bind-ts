@@ -32,6 +32,7 @@
       "name": "web",
       "version": "0.1.0",
       "dependencies": {
+        "@compound/core": "*",
         "@repo/ui": "*",
         "next": "16.1.0",
         "react": "^19.2.0",
