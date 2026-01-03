@@ -1,0 +1,7 @@
+node_modules
+dist
+.turbo
+.next
+bun.lock
+form-main
+coverage

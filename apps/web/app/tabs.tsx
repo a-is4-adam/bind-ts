@@ -1,13 +1,13 @@
-import { useSlotContext } from "./compound-context";
+import { useElementContext } from "./bind-context";
 
 function Tab({ children }: { children: React.ReactNode }) {
-  const slot = useSlotContext();
-  return <button onClick={slot.setVariant}>{children}</button>;
+	const element = useElementContext();
+	return <button onClick={element.handleChange}>{children}</button>;
 }
 function TabPanel({ children }: { children: React.ReactNode }) {
-  const slot = useSlotContext();
-  if (!slot.isActive) return null;
-  return <div>{children}</div>;
+	const element = useElementContext();
+	if (!element.isActive) return null;
+	return <div>{children}</div>;
 }
 
 export { Tab, TabPanel };
