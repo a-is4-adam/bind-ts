@@ -31,7 +31,7 @@ export interface BindOptions<TValues extends readonly string[]> {
  * A class representing the Bind API. It handles the logic and interactions
  * with exclusive selection state (like tabs, accordions, multi-step forms).
  *
- * This is framework-agnostic - use with a framework adapter like `@bind/react`.
+ * This is framework-agnostic - use with a framework adapter like `@bind-ts/react`.
  */
 export class BindApi<TValues extends readonly string[]> {
 	/**

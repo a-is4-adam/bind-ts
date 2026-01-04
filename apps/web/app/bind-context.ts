@@ -1,4 +1,4 @@
-import { createBindHook, createBindContexts } from "@bind/react";
+import { createBindHook, createBindContexts } from "@bind-ts/react";
 import { Tab, TabPanel } from "./tabs";
 
 export const { elementContext, bindContext, useElementContext } = createBindContexts();

@@ -1,7 +1,7 @@
 "use client";
 
 import styles from "./page.module.css";
-import { useBind } from "@bind/react-bind";
+import { useBind } from "@bind-ts/react-bind";
 
 import { useAppBind } from "./bind-context";
 

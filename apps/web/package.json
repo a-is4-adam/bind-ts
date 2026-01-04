@@ -1,5 +1,5 @@
 {
-	"name": "@bind/web",
+	"name": "@bind-ts/web",
 	"version": "0.1.0",
 	"type": "module",
 	"private": true,
@@ -11,15 +11,15 @@
 		"check-types": "next typegen && tsc --noEmit"
 	},
 	"dependencies": {
-		"@bind/ui": "workspace:*",
-		"@bind/react-bind": "workspace:*",
+		"@bind-ts/ui": "workspace:*",
+		"@bind-ts/react-bind": "workspace:*",
 		"next": "16.1.0",
 		"react": "^19.2.0",
 		"react-dom": "^19.2.0"
 	},
 	"devDependencies": {
-		"@bind/eslint-config": "workspace:*",
-		"@bind/typescript-config": "workspace:*",
+		"@bind-ts/eslint-config": "workspace:*",
+		"@bind-ts/typescript-config": "workspace:*",
 		"@types/node": "^22.15.3",
 		"@types/react": "19.2.2",
 		"@types/react-dom": "19.2.2",

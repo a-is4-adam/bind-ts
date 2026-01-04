@@ -1,5 +1,5 @@
 {
-	"name": "@bind/typescript-config",
+	"name": "@bind-ts/typescript-config",
 	"version": "0.0.0",
 	"private": true,
 	"license": "MIT",

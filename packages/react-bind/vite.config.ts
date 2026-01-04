@@ -13,12 +13,12 @@ export default defineConfig({
 			},
 		},
 		rollupOptions: {
-			external: ["react", "react-dom", "@bind/core", "@tanstack/react-store"],
+			external: ["react", "react-dom", "@bind-ts/bind-core", "@tanstack/react-store"],
 			output: {
 				globals: {
 					react: "React",
 					"react-dom": "ReactDOM",
-					"@bind/core": "BindCore",
+					"@bind-ts/bind-core": "BindCore",
 					"@tanstack/react-store": "TanstackReactStore",
 				},
 			},

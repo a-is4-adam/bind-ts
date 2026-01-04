@@ -13,4 +13,4 @@ export { createBindContexts, createBindHook } from "./createBindHook";
 export type { AppElementContext, AppElementProps, AppBindExtendedApi } from "./createBindHook";
 
 // Re-export core types for convenience
-export type { BindOptions, BindState } from "@bind/core";
+export type { BindOptions, BindState } from "@bind-ts/bind-core";

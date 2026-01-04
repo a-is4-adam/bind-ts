@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useMemo } from "react";
 import { useBind } from "./useBind";
-import type { BindOptions, BindState } from "@bind/bind-core";
+import type { BindOptions, BindState } from "@bind-ts/bind-core";
 import type {
 	ComponentType,
 	Context,

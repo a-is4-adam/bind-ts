@@ -1,4 +1,4 @@
-import type { BindState } from "@bind/core";
+import type { BindState } from "@bind-ts/bind-core";
 import type { ReactNode } from "react";
 
 /**

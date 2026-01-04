@@ -2,7 +2,7 @@ import { describe, it, expectTypeOf } from "vitest";
 import { useBind } from "../useBind";
 import type { ReactBindExtendedApi, ReactBindApi } from "../useBind";
 import type { ElementContext, ElementProps, SubscribeProps } from "../types";
-import type { BindState } from "@bind/core";
+import type { BindState } from "@bind-ts/bind-core";
 
 describe("useBind type tests", () => {
 	it("should return ReactBindExtendedApi with correct value types", () => {

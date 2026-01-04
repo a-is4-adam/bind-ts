@@ -1,6 +1,6 @@
 "use client";
 
-import { BindApi, type BindOptions, type BindState } from "@bind/core";
+import { BindApi, type BindOptions, type BindState } from "@bind-ts/bind-core";
 import { useStore } from "@tanstack/react-store";
 import { useMemo, useState } from "react";
 import { useIsomorphicLayoutEffect } from "./useIsomorphicLayoutEffect";
