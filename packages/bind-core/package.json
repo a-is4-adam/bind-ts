@@ -1,9 +1,17 @@
 {
 	"name": "@bind-ts/bind-core",
-	"version": "0.0.2",
+	"version": "0.0.3",
 	"description": "Type-safe, framework-agnostic state management for compound components",
 	"author": "",
 	"license": "MIT",
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/a-is4-adam/bind-ts.git",
+		"directory": "packages/bind-core"
+	},
+	"bugs": {
+		"url": "https://github.com/a-is4-adam/bind-ts/issues"
+	},
 	"type": "module",
 	"types": "dist/esm/index.d.ts",
 	"main": "dist/cjs/index.cjs",
