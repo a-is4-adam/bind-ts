@@ -1,0 +1,9 @@
+{
+	"extends": "@bind-ts/typescript-config/react-library.json",
+	"compilerOptions": {
+		"outDir": "dist/esm",
+		"declarationDir": "dist/esm"
+	},
+	"include": ["src"],
+	"exclude": ["node_modules", "dist", "**/__tests__"]
+}
